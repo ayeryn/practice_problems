@@ -8,28 +8,16 @@ def is_valid_sudoku(board: list[list[str]]) -> bool:
 
     for i in range(len(board)):
         for j in range(len(board)):
-            # check row
-            if board[i][j] != "." and board[i][j] not in rows[i]:
-                rows[i].add(board[i][j])
-            elif board[i][j] in rows[i]:
+            if board[i][j] == ".":
+                continue
+            elif (
+                board[i][j] in rows[i]  # check row
+                or board[i][j] in cols[j]  # check col
+                or board[i][j] in squares[(i // 3, j // 3)]  # check 3x3
+            ):
                 return False
-
-            # check col
-            if board[i][j] != "." and board[i][j] not in cols[j]:
-                cols[j].add(board[i][j])
-            elif board[i][j] in cols[j]:
-                return False
-
-    d = [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)]
-    for i in range(0, len(board), 3):
-        for j in range(0, len(board), 3):
-            for x, y in d:
-                if (
-                    board[i + x][j + y] != "."
-                    and board[i + x][j + y] not in squares[(i, j)]
-                ):
-                    squares[(i, j)].add(board[i + x][j + y])
-                elif board[i + x][j + y] in squares[(i, j)]:
-                    return False
+            rows[i].add(board[i][j])
+            cols[j].add(board[i][j])
+            squares[(i // 3, j // 3)].add(board[i][j])
 
     return True
