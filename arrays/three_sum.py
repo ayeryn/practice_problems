@@ -13,9 +13,7 @@ def three_sum(nums: list[int]) -> list[list[int]]:
                 ans.add((nums[x], nums[left], nums[right]))
                 left += 1
                 right -= 1
-                continue
-
-            if nums[left] + nums[right] > -nums[x]:
+            elif nums[left] + nums[right] > -nums[x]:
                 right -= 1
             else:
                 left += 1
