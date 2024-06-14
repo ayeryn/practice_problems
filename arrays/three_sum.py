@@ -14,11 +14,11 @@ def three_sum(nums: list[int]) -> list[list[int]]:
         while left < right:  # O(n)
             if nums[left] + nums[right] == -nums[x]:
                 ans.add((nums[x], nums[left], nums[right]))
+                left += 1
                 while nums[left] == nums[left - 1] and left < right:
+                    # Avoid duplicates
                     left += 1
-                right -= 1
-                while nums[right] == nums[right - 1] and left < right:
-                    right -= 1
+                # The next iteration will take care of decreasing right
             elif nums[left] + nums[right] > -nums[x]:
                 right -= 1
             else:
