@@ -2,7 +2,7 @@ from heaps.MiddleElementFinder import MiddleElementFinder
 import random
 
 
-def test_1():
+def test_MiddleElementFinder():
     nums = [random.randint(1, 50) for _ in range(15)]
 
     f = MiddleElementFinder()
