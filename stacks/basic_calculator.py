@@ -31,18 +31,12 @@ def basic_calculator(s: str) -> int:
         if s[i].isdigit():
             num += s[i]
 
-            if i == len(s) - 1:
-                if stack and stack[-1] in ops2:
-                    handle_ops2(num)
-                else:
-                    stack.append(int(num))
-        else:
-            if num != "":  # push num on stack
-                if stack and stack[-1] in ops2:
-                    handle_ops2(num)
-                else:
-                    stack.append(int(num))
-                num = ""
+        if s[i] in ops1 or s[i] in ops2 or i == len(s) - 1:
+            if stack and stack[-1] in ops2:
+                handle_ops2(num)
+            else:
+                stack.append(int(num))
+            num = ""
 
             if s[i] in ops1 or s[i] in ops2:
                 stack.append(s[i])
@@ -60,3 +54,4 @@ def basic_calculator(s: str) -> int:
             stack.appendleft(op_1 - op_2)
 
     return stack[0]
+w
