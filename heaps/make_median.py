@@ -4,36 +4,37 @@ from heapq import *
 
 
 def make_median(nums: list[int], k: int) -> int:
-    """
-    Median:
-    - when len(nums) is odd, the (l//2)ith element
-    - when len(nums) is even, the average of (l//2 - 1)th and (l//2)th element
+    if len(nums) == 1:
+        return abs(k - nums[0])
 
-    We need to make sure everything before median is <= k and everything after median >= k
-    """
     heap = []
-    size = len(nums) // 2 + 1
-
     for n in nums:
-        heappush(heap, -n)
-        if len(heap) > size:
-            heappop(heap)
+        heappush(heap, n)
 
-    # Now heap has the <size> smallest elements in nums
-    # We need all those numbers to be <= k
+    """
+    We need to make sure that:
+    1. everything before median is <= k
+    2. median == k
+    3. everything after median is >= k
 
-    if -heap[0] == k:
-        return 0
+    Note: based on description of problem, median is at l//2 regardless of len(nums)
+    """
 
-    # if odd - we c
-    # FIXME: We really need to check all the elements in the list
-    if len(heap) % 2:
-        top = -heappop(heap)
-        print(top)
-        return abs(top - k)
-    # if even - we care about the top 2
-    else:
-        t1 = -heappop(heap)
-        t2 = -heappop(heap)
-        print(t1, t2)
-        return abs(t1 + t2 - k * 2)
+    steps = 0
+    l = len(heap)
+    # heap[:l//2] <= k, heap[l//2] == k, heap[l//2+1:] >= k
+    i = 0
+    while heap:
+        curr = heappop(heap)
+        if i < l // 2:  # before
+            if curr > k:
+                steps += curr - k
+        elif i == l // 2:  # median
+            if curr != k:
+                steps += abs(curr - k)
+        else:  # after
+            if curr < k:
+                steps += k - curr
+        i += 1
+
+    return steps
